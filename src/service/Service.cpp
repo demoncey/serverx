@@ -22,14 +22,18 @@ void Service::callback(std::string msg){
 	while(true){
 		std::lock_guard<std::mutex> lock(global_mu);//unlock when guard is destoryed (out of scope)
 		cout<<"*************************"<<endl;
-		cout<<"  "<<this->service_name.c_str()<<" "<<endl;
 		cout<<"  "<<msg.c_str()<<" "<<endl;
-
 		cout<<"  "<<*queue.get()<<" "<<endl;
+		cout<<"----------"<<endl;
+		this->run();
+		cout<<"----------"<<endl;
 		cout<<"*************************"<<endl;
 		std::this_thread::sleep_for(1s);
 
 
 	}
 }
+
+
+
 

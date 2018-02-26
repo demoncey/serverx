@@ -56,7 +56,7 @@ int main() {
 
 void child(){
 	string name="queue";
-	unique_ptr<MessageQueue> queue(new MessageQueue(name));
+	unique_ptr<MessageQueue> queue(new MessageQueue("unique queue"));
 	shared_ptr<MessageQueue> queue2(new MessageQueue("shared queue"));
 
 

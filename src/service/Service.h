@@ -18,7 +18,10 @@ public:
 	Service(std::string service_name,std::string url,shared_ptr<MessageQueue> queue);
 	virtual ~Service();
 	void callback(std::string msg);
-
+	virtual void run(){
+		cout<<"  "<<this->service_name.c_str()<<" "<<endl;
+		cout<<"virtual method"<<endl;
+	};
 
 
 
