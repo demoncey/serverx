@@ -17,6 +17,7 @@
 
 #include "MessageQueue.h"
 #include "service/Service.h"
+#include "manager/ServiceManager.h"
 
 
 #define PARENT "Parent process is working"
@@ -58,6 +59,7 @@ void child(){
 	string name="queue";
 	unique_ptr<MessageQueue> queue(new MessageQueue("unique queue"));
 	shared_ptr<MessageQueue> queue2(new MessageQueue("shared queue"));
+	ServiceManager manager;
 
 
 	auto master_lambda = [](auto a,unique_ptr<MessageQueue>& queue) {
@@ -109,17 +111,23 @@ void child(){
 	std::thread master (master_lambda,smaster,std::ref(queue));
 
 
-	Service service1("service1","/service1",queue2);
-	Service service2("service2","/service2",queue2);
+	//Service service1("service1","/service1",queue2);
+	Service service2("service2 reference","/ref_service2",queue2);
 
-	std::thread th1 (&Service::callback,service1,"Hi i am service 2");
-	std::thread th2 (&Service::callback,service2,"Hi i am service 2");
+	unique_ptr<Service> s1(new Service("unique_service1","/unique_service1",queue2));
+	unique_ptr<Service> s2(new Service("unique_service2","/unique_service2",queue2));
+	manager.registerService(std::move(s1),"unique_service1");
+	manager.registerService(std::move(s2),"unique_service2");
+	manager.registerService(service2,"unique_service_ref");
+
+//	std::thread th1 (&Service::callback,service1,"Hi i am service 2");
+//	std::thread th2 (&Service::callback,service2,"Hi i am service 2");
 	//std::thread th2 (thread_lambda,stext2,std::ref(queue));
 //	std::thread ths1 (thread_lambda_value,stext3,queue2);
 //	std::thread ths2 (thread_lambda_value,stext4,queue2);
 	master.join();
-	th1.join();
-	th2.join();
+//	th1.join();
+//	th2.join();
 //	ths1.join();
 //	ths2.join();
 	cout<<queue2.use_count()<<endl;

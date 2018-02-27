@@ -23,9 +23,7 @@ void MessageQueue:: display(){
 	cout<<name<<endl;
 }
 void MessageQueue::insert(string msg){
-	//pthread_mutex_lock(&tunnel_mutex);
 	queue.push(msg);
-	//pthread_mutex_unlock(&tunnel_mutex);
 }
 void MessageQueue::get(){
 	//pthread_mutex_lock(&tunnel_mutex);

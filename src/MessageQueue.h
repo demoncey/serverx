@@ -31,7 +31,6 @@ public:
 private:
 	string name;
 	std::queue<string> queue;
-	pthread_mutex_t tunnel_mutex;
 };
 
 #endif /* MESSAGEQUEUE_H_ */
